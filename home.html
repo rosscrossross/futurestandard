@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Submit Concept</title>
+</head>
+<body>
+  <h1>Submit New Concept</h1>
+  <form id="concept-form">
+    <input type="text" name="conceptName" placeholder="Concept Name" required /><br />
+    <textarea name="trend" placeholder="Trend(s)" required></textarea><br />
+    <textarea name="hypothesis" placeholder="Hypothesis" required></textarea><br />
+    <textarea name="valueProposition" placeholder="Value Proposition" required></textarea><br />
+    <input type="text" name="cta" placeholder="Call to Action" /><br />
+    <input type="text" name="audience" placeholder="Target Audience" /><br />
+    <input type="text" name="style" placeholder="Visual Style" /><br />
+    <input type="date" name="deadline" /><br />
+    <textarea name="notes" placeholder="Notes"></textarea><br />
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('concept-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      const webhookUrl = 'YOUR_MAKE_WEBHOOK_URL_HERE';
+
+      try {
+        const res = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          alert('Concept submitted successfully!');
+          form.reset();
+        } else {
+          alert('Submission failed.');
+        }
+      } catch (err) {
+        alert('Error submitting form.');
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
